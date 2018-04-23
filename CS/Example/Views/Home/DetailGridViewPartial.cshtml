@@ -1,0 +1,25 @@
+@Html.DevExpress().GridView(
+    settings => {
+        settings.Name = "detailGrid" + ViewData["CustomerID"];
+        settings.SettingsDetail.MasterGridName = "masterGrid";
+
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "DetailGridViewPartial", CustomerID = ViewData["CustomerID"] };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.KeyFieldName = "OrderID";
+        settings.Columns.Add("OrderID");
+        settings.Columns.Add("OrderDate").PropertiesEdit.DisplayFormatString = "d";
+        settings.Columns.Add("ShipName");
+        settings.Columns.Add("ProductName");
+        settings.Columns.Add("Quantity");
+        settings.Columns.Add("UnitPrice").PropertiesEdit.DisplayFormatString = "c";
+
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Sorting,
+            new { Controller = "Home", Action = "DetailGridViewSortingAction", CustomerID = ViewData["CustomerID"] }
+        );
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Paging,
+            new { Controller = "Home", Action = "DetailGridViewPagingAction", CustomerID = ViewData["CustomerID"] }
+        );
+}).BindToCustomData(Model).GetHtml()
