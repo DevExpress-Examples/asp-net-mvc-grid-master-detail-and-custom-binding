@@ -1,3 +1,15 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [HomeController.cs](./CS/Example/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/Example/Controllers/HomeController.vb))
+* [DetailCustomBindingModel.cs](./CS/Example/Models/DetailCustomBindingModel.cs) (VB: [DetailCustomBindingModel.vb](./VB/Example/Models/DetailCustomBindingModel.vb))
+* [MasterCustomBindingModel.cs](./CS/Example/Models/MasterCustomBindingModel.cs) (VB: [MasterCustomBindingModel.vb](./VB/Example/Models/MasterCustomBindingModel.vb))
+* [Northwind.cs](./CS/Example/Models/Northwind.cs) (VB: [Northwind.vb](./VB/Example/Models/Northwind.vb))
+* [DetailGridViewPartial.cshtml](./CS/Example/Views/Home/DetailGridViewPartial.cshtml)
+* [Index.cshtml](./CS/Example/Views/Home/Index.cshtml)
+* [MasterGridViewPartial.cshtml](./CS/Example/Views/Home/MasterGridViewPartial.cshtml)
+* [_Layout.cshtml](./CS/Example/Views/Shared/_Layout.cshtml)
+<!-- default file list end -->
 # How to create a master-detail GridView with paging and sorting using Custom Data Binding
 
 
