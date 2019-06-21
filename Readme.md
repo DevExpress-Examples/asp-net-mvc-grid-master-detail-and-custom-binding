@@ -11,6 +11,9 @@
 * [_Layout.cshtml](./CS/Example/Views/Shared/_Layout.cshtml)
 <!-- default file list end -->
 # How to create a master-detail GridView with paging and sorting using Custom Data Binding
+<!-- run online -->
+**[[Run Online]](https://codecentral.devexpress.com/e4398)**
+<!-- run online end -->
 
 
 <p>This sample demonstrates how to manually provide data for two GridView extensions that are used in a master-detail relationship. In this implementation, only sorting and paging operations of the grids are handled in the corresponding Action methods.</p><p>To learn more on the GridView's custom data binding feature, please refer to the <a href="http://documentation.devexpress.com/#AspNet/CustomDocument14374"><u>Custom Data Binding - Overview</u></a> help topic.</p><p>Note that this sample provides a universal implementation approach. It can be easily adopted and used for every custom data source object if it implements the <strong>IQueryable</strong> interface. </p><p>The common logic of each grid's custom binding implementation is similar to the implementation demonstrated by the <a href="http://www.devexpress.com/Support/Center/Example/Details/E4394"><u>E4394</u></a> code sample. The difference is that in this sample the master grid's detail row template is defined by using another (detail) GridView extension. Each detail grid instance is provided with information on the corresponding master row's key field value. This value is passed to a detail grid's Action methods (as a parameter) and to the grid's Partial View (as a ViewData object).</p><p></p><p>In short, this sample's implementation logic is as follows:</p><br />
