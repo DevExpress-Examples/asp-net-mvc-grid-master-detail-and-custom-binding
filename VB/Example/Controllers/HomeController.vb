@@ -1,5 +1,4 @@
-Imports Microsoft.VisualBasic
-Imports System.Web.Mvc
+﻿Imports System.Web.Mvc
 Imports Example.Models
 Imports DevExpress.Web.Mvc
 Imports DevExpress.Data.Filtering
@@ -7,6 +6,7 @@ Imports DevExpress.Data.Filtering
 Namespace Example.Controllers
 	Public Class HomeController
 		Inherits Controller
+
 		Public Function Index() As ActionResult
 			Return View()
 		End Function
@@ -28,7 +28,7 @@ Namespace Example.Controllers
 			Return MasterGridActionCore(viewModel)
 		End Function
 		Public Function MasterGridActionCore(ByVal gridViewModel As GridViewModel) As ActionResult
-            gridViewModel.ProcessCustomBinding(AddressOf MasterCustomBindingHandlers.GetDataRowCount, AddressOf MasterCustomBindingHandlers.GetData)
+			gridViewModel.ProcessCustomBinding(AddressOf MasterCustomBindingHandlers.GetDataRowCount, AddressOf MasterCustomBindingHandlers.GetData)
 			Return PartialView("MasterGridViewPartial", gridViewModel)
 		End Function
 
@@ -50,7 +50,7 @@ Namespace Example.Controllers
 			Return DetailGridActionCore(viewModel, customerID)
 		End Function
 		Public Function DetailGridActionCore(ByVal gridViewModel As GridViewModel, ByVal customerID As String) As ActionResult
-            gridViewModel.ProcessCustomBinding(AddressOf DetailCustomBindingHandlers.GetDataRowCount, AddressOf DetailCustomBindingHandlers.GetData)
+			gridViewModel.ProcessCustomBinding(AddressOf DetailCustomBindingHandlers.GetDataRowCount, AddressOf DetailCustomBindingHandlers.GetData)
 			ViewData("CustomerID") = customerID
 			Return PartialView("DetailGridViewPartial", gridViewModel)
 		End Function

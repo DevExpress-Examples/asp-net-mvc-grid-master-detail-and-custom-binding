@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System.Linq
+﻿Imports System.Linq
 Imports DevExpress.Data.Filtering
 Imports DevExpress.Data.Linq.Helpers
 Imports DevExpress.Web.Mvc

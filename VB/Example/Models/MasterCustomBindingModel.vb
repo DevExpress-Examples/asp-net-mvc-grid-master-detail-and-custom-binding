@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System.Collections.Generic
+﻿Imports System.Collections.Generic
 Imports System.Linq
 Imports DevExpress.Data
 Imports DevExpress.Data.Filtering
@@ -24,32 +23,30 @@ Namespace Example.Models
 	End Class
 
 	Public Module GridViewCustomOperationDataHelper
-        Sub New()
-        End Sub
-        Private ReadOnly Property Converter() As ICriteriaToExpressionConverter
-            Get
-                Return New CriteriaToExpressionConverter()
-            End Get
-        End Property
+		Private ReadOnly Property Converter() As ICriteriaToExpressionConverter
+			Get
+				Return New CriteriaToExpressionConverter()
+			End Get
+		End Property
 
-        <System.Runtime.CompilerServices.Extension()> _
-        Public Function [Select](ByVal query As IQueryable, ByVal fieldName As String) As IQueryable
-            Return query.MakeSelect(Converter, New OperandProperty(fieldName))
-        End Function
-        <System.Runtime.CompilerServices.Extension()> _
-        Public Function ApplySorting(ByVal query As IQueryable, ByVal sortedColumns As IEnumerable(Of GridViewColumnState)) As IQueryable
-            For Each column As GridViewColumnState In sortedColumns
-                query = ApplySorting(query, column.FieldName, column.SortOrder)
-            Next column
-            Return query
-        End Function
-        <System.Runtime.CompilerServices.Extension()> _
-        Public Function ApplySorting(ByVal query As IQueryable, ByVal fieldName As String, ByVal order As ColumnSortOrder) As IQueryable
-            Return query.MakeOrderBy(Converter, New ServerModeOrderDescriptor(New OperandProperty(fieldName), order = ColumnSortOrder.Descending))
-        End Function
-        <System.Runtime.CompilerServices.Extension()> _
-        Public Function ApplyFilter(ByVal query As IQueryable, ByVal filterExpression As String) As IQueryable
-            Return query.AppendWhere(Converter, CriteriaOperator.Parse(filterExpression))
-        End Function
+		<System.Runtime.CompilerServices.Extension> _
+		Public Function [Select](ByVal query As IQueryable, ByVal fieldName As String) As IQueryable
+			Return query.MakeSelect(Converter, New OperandProperty(fieldName))
+		End Function
+		<System.Runtime.CompilerServices.Extension> _
+		Public Function ApplySorting(ByVal query As IQueryable, ByVal sortedColumns As IEnumerable(Of GridViewColumnState)) As IQueryable
+			For Each column As GridViewColumnState In sortedColumns
+				query = ApplySorting(query, column.FieldName, column.SortOrder)
+			Next column
+			Return query
+		End Function
+		<System.Runtime.CompilerServices.Extension> _
+		Public Function ApplySorting(ByVal query As IQueryable, ByVal fieldName As String, ByVal order As ColumnSortOrder) As IQueryable
+			Return query.MakeOrderBy(Converter, New ServerModeOrderDescriptor(New OperandProperty(fieldName), order = ColumnSortOrder.Descending))
+		End Function
+		<System.Runtime.CompilerServices.Extension> _
+		Public Function ApplyFilter(ByVal query As IQueryable, ByVal filterExpression As String) As IQueryable
+			Return query.AppendWhere(Converter, CriteriaOperator.Parse(filterExpression))
+		End Function
 	End Module
 End Namespace

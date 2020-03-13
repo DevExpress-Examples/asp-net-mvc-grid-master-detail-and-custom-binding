@@ -1,0 +1,32 @@
+@Html.DevExpress().GridView(
+    settings => {
+        settings.Name = "masterGrid";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "MasterGridViewPartial" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.KeyFieldName = "CustomerID";
+        settings.Columns.Add("ContactName");
+        settings.Columns.Add("CompanyName");
+        settings.Columns.Add("City");
+        settings.Columns.Add("Country");
+
+        settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+        settings.SettingsDetail.ShowDetailRow = true;
+
+        settings.SetDetailRowTemplateContent(c => {
+            Html.RenderAction("DetailGridViewPartial", new { CustomerID = DataBinder.Eval(c.DataItem, "CustomerID") });
+        });
+
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Sorting,
+            new { Controller = "Home", Action = "MasterGridViewSortingAction" }
+        );
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Paging,
+            new { Controller = "Home", Action = "MasterGridViewPagingAction" }
+        );
+
+        settings.PreRender = (sender, e) => {
+            ((MVCxGridView)sender).DetailRows.ExpandRow(0);
+        };
+}).BindToCustomData(Model).GetHtml()
