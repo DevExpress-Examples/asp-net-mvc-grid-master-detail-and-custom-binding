@@ -6,7 +6,7 @@
 
 # Grid View for ASP.NET MVC - How to implement a master-detail grid with a simple custom binding scenario
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/e4398/)**
+**[[Run Online]](https://codecentral.devexpress.com/128551320/)**
 <!-- run online end -->
 
 This example demonstrates how to implement a simple custom binding scenario for two [GridView](https://docs.devexpress.com/AspNetMvc/8966/components/grid-view) extensions that are used in a master-detail relationship, and handle sorting and paging operations in the corresponding Action methods.
