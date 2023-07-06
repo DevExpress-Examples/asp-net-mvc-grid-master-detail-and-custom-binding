@@ -4,7 +4,6 @@
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
 
-#  How to implement a simple custom binding scenario
 # Grid View for ASP.NET MVC - How to implement a master-detail grid with a simple custom binding scenario
 <!-- run online -->
 **[[Run Online]](https://codecentral.devexpress.com/e4398/)**
