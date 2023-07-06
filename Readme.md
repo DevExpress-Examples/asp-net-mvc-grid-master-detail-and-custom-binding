@@ -17,7 +17,7 @@
 <!-- default file list end -->
 # How to create a master-detail GridView with paging and sorting using Custom Data Binding
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/e4398/)**
+**[[Run Online]](https://codecentral.devexpress.com/128551320/)**
 <!-- run online end -->
 
 
