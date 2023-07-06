@@ -130,17 +130,14 @@ The Grid View model object is passed from the Controller to the grid's Partial V
 
 ## Files to Review todo
 
-* [MasterGridViewPartial.cshtml](./CS/Example/Views/Home/MasterGridViewPartial.cshtml)
-* [DetailGridViewPartial.cshtml](./CS/Example/Views/Home/DetailGridViewPartial.cshtml)
+* [MasterGridViewPartial.cshtml](./CS/Example/Views/Home/MasterGridViewPartial.cshtml) (VB: [MasterGridViewPartial.vbhtml](./VB/Example/Views/Home/MasterGridViewPartial.vbhtml))
+* [DetailGridViewPartial.cshtml](./CS/Example/Views/Home/DetailGridViewPartial.cshtml) (VB: [DetailGridViewPartial.vbhtml](./VB/Example/Views/Home/DetailGridViewPartial.vbhtml))
 * [HomeController.cs](./CS/Example/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/Example/Controllers/HomeController.vb))
 
 * [DetailCustomBindingModel.cs](./CS/Example/Models/DetailCustomBindingModel.cs) (VB: [DetailCustomBindingModel.vb](./VB/Example/Models/DetailCustomBindingModel.vb))
 * [MasterCustomBindingModel.cs](./CS/Example/Models/MasterCustomBindingModel.cs) (VB: [MasterCustomBindingModel.vb](./VB/Example/Models/MasterCustomBindingModel.vb))
 * [Northwind.cs](./CS/Example/Models/Northwind.cs) (VB: [Northwind.vb](./VB/Example/Models/Northwind.vb))
 
-* [Index.cshtml](./CS/Example/Views/Home/Index.cshtml)
-
-* [_Layout.cshtml](./CS/Example/Views/Shared/_Layout.cshtml)
 
 
 ## Documentation
