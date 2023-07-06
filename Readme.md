@@ -76,7 +76,7 @@ The [CallbackRouteValues](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.M
 
 ### Controller
 
-Action methods update the [GridViewModel](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel) object with the information from the performed operation. The [ProcessCustomBinding](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel.ProcessCustomBinding.overloads) method delegates the binding implementation to specific model-layer methods pointed by the method's parameters.
+Action methods update the [GridViewModel](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel) object with the information from the performed operation. The [ProcessCustomBinding](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel.ProcessCustomBinding.overloads) method delegates the binding implementation to specific model-layer methods specified by the Action method's parameters.
 
 **Master grid:**
 ```csharp
