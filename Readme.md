@@ -3,45 +3,147 @@
 [![](https://img.shields.io/badge/Open_in_DevExpress_Support_Center-FF7200?style=flat-square&logo=DevExpress&logoColor=white)](https://supportcenter.devexpress.com/ticket/details/E4398)
 [![](https://img.shields.io/badge/📖_How_to_use_DevExpress_Examples-e9f6fc?style=flat-square)](https://docs.devexpress.com/GeneralInformation/403183)
 <!-- default badges end -->
-<!-- default file list -->
-*Files to look at*:
 
-* [HomeController.cs](./CS/Example/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/Example/Controllers/HomeController.vb))
-* [DetailCustomBindingModel.cs](./CS/Example/Models/DetailCustomBindingModel.cs) (VB: [DetailCustomBindingModel.vb](./VB/Example/Models/DetailCustomBindingModel.vb))
-* [MasterCustomBindingModel.cs](./CS/Example/Models/MasterCustomBindingModel.cs) (VB: [MasterCustomBindingModel.vb](./VB/Example/Models/MasterCustomBindingModel.vb))
-* [Northwind.cs](./CS/Example/Models/Northwind.cs) (VB: [Northwind.vb](./VB/Example/Models/Northwind.vb))
-* [DetailGridViewPartial.cshtml](./CS/Example/Views/Home/DetailGridViewPartial.cshtml)
-* [Index.cshtml](./CS/Example/Views/Home/Index.cshtml)
-* [MasterGridViewPartial.cshtml](./CS/Example/Views/Home/MasterGridViewPartial.cshtml)
-* [_Layout.cshtml](./CS/Example/Views/Shared/_Layout.cshtml)
-<!-- default file list end -->
-# How to create a master-detail GridView with paging and sorting using Custom Data Binding
+#  How to implement a simple custom binding scenario
+# Grid View for ASP.NET MVC - How to implement a master-detail grid with a simple custom binding scenario
 <!-- run online -->
 **[[Run Online]](https://codecentral.devexpress.com/e4398/)**
 <!-- run online end -->
 
+This example demonstrates how to implement a simple custom binding scenario for two [GridView](https://docs.devexpress.com/AspNetMvc/8966/components/grid-view) extensions that are used in a master-detail relationship, and handle sorting and paging operations in the corresponding Action methods.
 
-<p>This sample demonstrates how to manually provide data for two GridView extensions that are used in a master-detail relationship. In this implementation, only sorting and paging operations of the grids are handled in the corresponding Action methods.</p><p>To learn more on the GridView's custom data binding feature, please refer to the <a href="https://docs.devexpress.com/AspNetMvc/14321/components/grid-view/concepts/binding-to-data/custom-data-binding"><u>Custom Data Binding</u></a> help topic.</p><p>Note that this sample provides a universal implementation approach. It can be easily adopted and used for every custom data source object if it implements the <strong>IQueryable</strong> interface. </p><p>The common logic of each grid's custom binding implementation is similar to the implementation demonstrated by the <a href="http://www.devexpress.com/Support/Center/Example/Details/E4394"><u>E4394</u></a> code sample. The difference is that in this sample the master grid's detail row template is defined by using another (detail) GridView extension. Each detail grid instance is provided with information on the corresponding master row's key field value. This value is passed to a detail grid's Action methods (as a parameter) and to the grid's Partial View (as a ViewData object).</p><p></p><p>In short, this sample's implementation logic is as follows:</p><br />
-<p>In both grid Partial Views (see MasterGridViewPartial.cshtml and DetailGridViewPartial.cshtml in Views > Home), a grid's <a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewSettings.CustomBindingRouteValuesCollection"><u>CustomBindingRouteValuesCollection</u></a> property is used to define handling actions for sorting and paging operations; the <a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridSettingsBase.CallbackRouteValues"><u>CallbackRouteValues</u></a> property defines the action to handle all other (standard) grid callbacks. In the master grid's Partial View, the <a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewSettings.SetDetailRowTemplateContent.overloads"><u>SetDetailRowTemplateContent</u></a> method delegate is implemented to define detail row content and provide it with the master row's key field value - the value of the "CustomerID" column. In the detail grid's Partial View, the received corresponding master row key field value (the value of the "CustomerID" column) is passed to the specified actions.</p><p>In the Controller (Controller > HomeController.cs), the specified Action methods are implemented for both grids to update a specific grid view model object (<a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel"><u>GridViewModel</u></a> that maintains a grid's state) with information of the performed operation (if required). Then, a grid view model's <a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel.ProcessCustomBinding.overloads"><u>ProcessCustomBinding</u></a> method is called to delegate a binding implementation to specific model-layer methods pointed by the method's certain parameters.</p><p>At the Model layer (see MasterCustomBindingModel.cs and DetailCustomBindingModel.cs in Models), two specified delegates are implemented for each grid to populate the corresponding grid view model with the required data. Generally, in the provided implementation of model-level binding delegates, you just need to modify a single code line in each model file to point to your particular model object:<br />
-</p>
+You can modify this approach to use it with any data source object that implements the `IQueryable` interface.
 
-```cs
-(MasterCustomBindingModel.cs)
-        static IQueryable Model { get { return NorthwindDataProvider.GetCustomers(); } }
+## Implementation details
 
+Custom data binding requires that the [DevExpressEditorsBinder](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.DevExpressEditorsBinder) is used instead of the default model binder to correctly transfer values from DevExpress editors back to the corresponding data model fields. 
+Assign `DevExpressEditorsBinder`  to the `ModelBinders.Binders.DefaultBinder` property in the **Global.asax** file to override the default model binder.
+
+```csharp
+ModelBinders.Binders.DefaultBinder = new DevExpress.Web.Mvc.DevExpressEditorsBinder();
 ```
 
+### Grid partial view
 
+Call the master grid's [SetDetailRowTemplateContent](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewSettings.SetDetailRowTemplateContent.overloads) method to define detail row content and provide it with the master row's key field value (the value of the "CustomerID" column).
 
-```cs
-(DetailCustomBindingModel.cs)
-        static IQueryable Model { get { return NorthwindDataProvider.GetInvoices(); } }
+The [CustomBindingRouteValuesCollection](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewSettings.CustomBindingRouteValuesCollection) property allows you to assign particular handling Actions for four data operations - paging, sorting, grouping, and filtering. In this example, the property specifies custom routing for sorting and paging operations.
 
+The [CallbackRouteValues](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridSettingsBase.CallbackRouteValues) property specifies the action that handles all other (standard) grid callbacks.
+
+**Master grid:**
+```razor
+@Html.DevExpress().GridView(
+    settings => {
+        settings.Name = "masterGrid";
+        settings.KeyFieldName = "CustomerID";
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SetDetailRowTemplateContent(c => {
+            Html.RenderAction("DetailGridViewPartial", new { CustomerID = DataBinder.Eval(c.DataItem, "CustomerID") });
+        });
+
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "MasterGridViewPartial" };
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Sorting,
+            new { Controller = "Home", Action = "MasterGridViewSortingAction" }
+        );
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Paging,
+            new { Controller = "Home", Action = "MasterGridViewPagingAction" }
+        );
+        // ...
 ```
 
-<p>Finally, the resulting grid view model object is passed from the Controller to a particular grid's Partial View as a Model. For a detail grid, the master row key value is also passed to the Partial View as a ViewData object. In the Partial View, each grid binds to the Model via the <a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewExtension.BindToCustomData(DevExpress.Web.Mvc.GridViewModel)"><u>BindToCustomData</u></a> method.</p><p>Note that when implementing the grid's custom data binding, the <a href="https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.DevExpressEditorsBinder"><u>DevExpressEditorsBinder</u></a> must be used instead of the default model binder to correctly transfer values from DevExpress editors back to the corresponding data model fields. In this code example, the DevExpressEditorsBinder is assigned to the ModelBinders.Binders.DefaultBinder property within the Global.asax file, thus overriding the default model binder.</p><p><strong>See Also:<br />
-</strong><a href="https://www.devexpress.com/Support/Center/p/E4394">How to implement a simple custom binding scenario for GridView</a></p>
+**Detail grid:**
+```razor
+@Html.DevExpress().GridView(
+    settings => {
+        settings.Name = "detailGrid" + ViewData["CustomerID"];
+        settings.SettingsDetail.MasterGridName = "masterGrid";
+        settings.KeyFieldName = "OrderID";
 
-<br/>
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "DetailGridViewPartial", CustomerID = ViewData["CustomerID"] };
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Sorting,
+            new { Controller = "Home", Action = "DetailGridViewSortingAction", CustomerID = ViewData["CustomerID"] }
+        );
+        settings.CustomBindingRouteValuesCollection.Add(
+            GridViewOperationType.Paging,
+            new { Controller = "Home", Action = "DetailGridViewPagingAction", CustomerID = ViewData["CustomerID"] }
+        );
+        // ...
+```
+
+### Controller
+
+Action methods update the [GridViewModel](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel) object with the information from the performed operation. The [ProcessCustomBinding](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewModel.ProcessCustomBinding.overloads) method delegates the binding implementation to specific model-layer methods specified by the Action method's parameters.
+
+**Master grid:**
+```csharp
+        public ActionResult MasterGridViewPartial() {
+            var viewModel = GridViewExtension.GetViewModel("masterGrid");
+            if (viewModel == null)
+                viewModel = CreateMasterGridViewModel();
+            return MasterGridActionCore(viewModel);
+        }
+        public ActionResult MasterGridViewSortingAction(GridViewColumnState column, bool reset) {
+            var viewModel = GridViewExtension.GetViewModel("masterGrid");
+            viewModel.SortBy(column, reset);
+            return MasterGridActionCore(viewModel);
+        }
+        public ActionResult MasterGridViewPagingAction(GridViewPagerState pager) {
+            var viewModel = GridViewExtension.GetViewModel("masterGrid");
+            viewModel.Pager.Assign(pager);
+            return MasterGridActionCore(viewModel);
+        }
+```
+
+**Detail grid:**
+```csharp
+        public ActionResult DetailGridViewPartial(string customerID) {
+            var viewModel = GridViewExtension.GetViewModel("detailGrid" + customerID);
+            if (viewModel == null)
+                viewModel = CreateDetailGridViewModel(customerID);
+            return DetailGridActionCore(viewModel, customerID);
+        }
+        public ActionResult DetailGridViewPagingAction(GridViewPagerState pager, string customerID) {
+            var viewModel = GridViewExtension.GetViewModel("detailGrid" + customerID);
+            viewModel.Pager.Assign(pager);
+            return DetailGridActionCore(viewModel, customerID);
+        }
+        public ActionResult DetailGridViewSortingAction(GridViewColumnState column, bool reset, string customerID) {
+            var viewModel = GridViewExtension.GetViewModel("detailGrid" + customerID);
+            viewModel.SortBy(column, reset);
+            return DetailGridActionCore(viewModel, customerID);
+        }
+```
+
+### Model
+
+The specified delegates populate the Grid View model with data. To bind the Grid to your particular model object, modify the following code line:
+
+```cs
+static IQueryable Model { get { return NorthwindDataProvider.GetCustomers(); } }
+```
+
+The Grid View model object is passed from the Controller to the grid's Partial View as a Model. In the Partial View, the [BindToCustomData](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.GridViewExtension.BindToCustomData(DevExpress.Web.Mvc.GridViewModel)) method binds the grid to the Model.
+
+## Files to Review todo
+
+* [MasterGridViewPartial.cshtml](./CS/Example/Views/Home/MasterGridViewPartial.cshtml) (VB: [MasterGridViewPartial.vbhtml](./VB/Example/Views/Home/MasterGridViewPartial.vbhtml))
+* [DetailGridViewPartial.cshtml](./CS/Example/Views/Home/DetailGridViewPartial.cshtml) (VB: [DetailGridViewPartial.vbhtml](./VB/Example/Views/Home/DetailGridViewPartial.vbhtml))
+* [HomeController.cs](./CS/Example/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/Example/Controllers/HomeController.vb))
+
+* [DetailCustomBindingModel.cs](./CS/Example/Models/DetailCustomBindingModel.cs) (VB: [DetailCustomBindingModel.vb](./VB/Example/Models/DetailCustomBindingModel.vb))
+* [MasterCustomBindingModel.cs](./CS/Example/Models/MasterCustomBindingModel.cs) (VB: [MasterCustomBindingModel.vb](./VB/Example/Models/MasterCustomBindingModel.vb))
+* [Northwind.cs](./CS/Example/Models/Northwind.cs) (VB: [Northwind.vb](./VB/Example/Models/Northwind.vb))
 
 
+
+## Documentation
+
+* [Custom Data Binding](https://docs.devexpress.com/AspNetMvc/14321/components/grid-view/binding-to-data/custom-data-binding)
+
+## More Examples
+
+* [Grid View for ASP.NET MVC - How to implement a simple custom binding scenario](https://github.com/DevExpress-Examples/asp-net-mvc-grid-custom-binding-with-sorting-paging)
