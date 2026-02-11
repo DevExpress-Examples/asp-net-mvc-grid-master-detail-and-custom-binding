@@ -142,7 +142,7 @@ The Grid View model object is passed from the Controller to the grid's Partial V
 
 * [Grid View for ASP.NET MVC - How to implement a simple custom binding scenario](https://github.com/DevExpress-Examples/asp-net-mvc-grid-custom-binding-with-sorting-paging)
 <!-- feedback -->
-## Does This Example Address Your Development Requirements/Objectives?
+## Does this example address your development requirements/objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=asp-net-mvc-grid-master-detail-and-custom-binding&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=asp-net-mvc-grid-master-detail-and-custom-binding&~~~was_helpful=no)
 
